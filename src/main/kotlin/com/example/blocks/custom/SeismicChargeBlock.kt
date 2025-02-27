@@ -52,7 +52,6 @@ class SeismicChargeBlock(settings: Settings?) : Block(settings) {
         pos: BlockPos?,
         context: ShapeContext?
     ): VoxelShape {
-        //todo: fix voxel shape to prevent exposing the face of the block below it.
-        return VoxelShapes.cuboid(0.0, 0.0, 0.0, 0.5, 0.4,1.0)
+        return VoxelShapes.cuboid(0.2, 0.0, 0.2, 0.8, 0.4,0.8)
     }
 }
