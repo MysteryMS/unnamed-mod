@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "template-mod:block/asteroid_fissure_block"
+  }
+}

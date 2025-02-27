@@ -1,15 +1,15 @@
 package com.example
 
-import com.example.blocks.FissureBlock
 import com.example.blocks.MetalChunkBlock
-import com.example.blocks.RefineryBlock
+import com.example.blocks.custom.SeismicChargeBlock
+import com.example.blocks.entities.fissure.AsteroidFissureBlock
+import com.example.blocks.entities.refinery.RefineryBlock
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroups
-import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -18,8 +18,9 @@ import net.minecraft.util.Identifier
 
 object ModBlocks {
     val metalChunk = MetalChunkBlock
-    val fissure = FissureBlock
+    lateinit var fissure: AsteroidFissureBlock
     lateinit var refinery: RefineryBlock
+    lateinit var seismicCharge: SeismicChargeBlock
 
     fun register(block: Block, key: RegistryKey<Block>, registerItem: Boolean = true): Block {
         if (registerItem) {
@@ -35,11 +36,15 @@ object ModBlocks {
     }
 
 
-
     fun initialize() {
         metalChunk.block = Block(metalChunk.settings)
+        fissure = AsteroidFissureBlock(AsteroidFissureBlock.settings)
+        seismicCharge = SeismicChargeBlock(
+            AbstractBlock.Settings
+                .create()
+                .registryKey(SeismicChargeBlock.key)
+        )
 
-        fissure.block = Block(fissure.settings)
         val refinerySettings = AbstractBlock.Settings.create()
         val refineryId = Identifier.of("template-mod", "refinery")
         val refineryKey = RegistryKey.of(RegistryKeys.BLOCK, refineryId)
@@ -48,15 +53,16 @@ object ModBlocks {
         refinery = RefineryBlock(refinerySettings)
 
         register(metalChunk.block!!, metalChunk.key, true)
-        register(fissure.block!!, fissure.key, true)
-
         register(refinery, RegistryKey.of(RegistryKeys.BLOCK, refineryId))
+        register(fissure, AsteroidFissureBlock.key)
+        register(seismicCharge, SeismicChargeBlock.key)
 
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register { entries ->
             entries.add(metalChunk.block)
-            entries.add(fissure.block)
+            entries.add(fissure)
             entries.add(refinery)
+            entries.add(seismicCharge)
         }
     }
 }

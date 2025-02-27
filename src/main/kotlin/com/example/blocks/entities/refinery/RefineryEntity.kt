@@ -26,9 +26,6 @@ class RefineryEntity(pos: BlockPos?, state: BlockState?) : BlockEntity(EntityTyp
     var output: Item? = null
     var processed = 0
 
-    val copperPercentage = 0.45
-    val ironPercentage = 0.50
-
     override fun createMenu(syncId: Int, playerInventory: PlayerInventory?, player: PlayerEntity?): ScreenHandler {
         return RefineryScreenHandler(syncId, playerInventory, this)
     }

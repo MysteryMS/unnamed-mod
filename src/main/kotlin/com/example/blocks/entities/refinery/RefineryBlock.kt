@@ -1,7 +1,6 @@
-package com.example.blocks
+package com.example.blocks.entities.refinery
 
 import com.example.blocks.entities.EntityTypes
-import com.example.blocks.entities.refinery.RefineryEntity
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState

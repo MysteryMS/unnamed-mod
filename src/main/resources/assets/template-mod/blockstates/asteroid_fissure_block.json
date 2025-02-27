@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "template-mod:block/asteroid_fissure_block"
+    }
+  }
+}

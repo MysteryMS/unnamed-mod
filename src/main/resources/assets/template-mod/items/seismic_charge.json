@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "template-mod:block/fissure_block"
+    "model": "template-mod:block/seismic_charge"
   }
 }
