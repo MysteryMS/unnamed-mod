@@ -1,6 +1,5 @@
 package com.example
 
-import com.example.blocks.entities.EntityTypes
 import com.example.network.Networking
 import com.example.screen.ScreenHandlerTypes
 import net.fabricmc.api.ModInitializer

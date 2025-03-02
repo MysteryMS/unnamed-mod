@@ -1,13 +1,11 @@
 package com.example.screen
 
-import com.example.blocks.entities.refinery.RefineryEntity
+import com.example.blocks.refinery.RefineryEntity
 import com.example.network.BlockPosPayload
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.slot.Slot
 
@@ -35,13 +33,6 @@ class RefineryScreenHandler(
             }
         })
 
-    }
-
-    fun hello() {
-        println("hello")
-        println(entity)
-        entity.output = Items.COPPER_INGOT
-        entity.markDirty()
     }
 
     override fun quickMove(player: PlayerEntity, slotIndex: Int): ItemStack {

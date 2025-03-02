@@ -1,6 +1,6 @@
-package com.example.blocks.entities.refinery
+package com.example.blocks.refinery
 
-import com.example.blocks.entities.EntityTypes
+import com.example.EntityTypes
 import com.example.network.BlockPosPayload
 import com.example.screen.RefineryScreenHandler
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory

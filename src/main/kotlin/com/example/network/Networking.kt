@@ -1,8 +1,8 @@
 package com.example.network
 
 import com.example.ModBlocks
-import com.example.blocks.entities.refinery.Outcomes
-import com.example.blocks.entities.refinery.RefineryEntity
+import com.example.blocks.refinery.Outcomes
+import com.example.blocks.refinery.RefineryEntity
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.item.BlockItem

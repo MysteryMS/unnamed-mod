@@ -1,6 +1,6 @@
-package com.example.blocks.entities.refinery
+package com.example.blocks.refinery
 
-import com.example.blocks.entities.EntityTypes
+import com.example.EntityTypes
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -36,7 +36,7 @@ class RefineryBlock(settings: Settings) : BlockWithEntity(settings) {
         if (world == null) return null
         if (world.isClient) return null
 
-        return validateTicker(type, EntityTypes.REFINERY, RefineryEntity::tick)
+        return validateTicker(type, EntityTypes.REFINERY, RefineryEntity.Companion::tick)
     }
 
     override fun onUse(

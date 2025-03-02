@@ -2,8 +2,10 @@ package com.example
 
 import com.example.blocks.MetalChunkBlock
 import com.example.blocks.custom.SeismicChargeBlock
-import com.example.blocks.entities.fissure.AsteroidFissureBlock
-import com.example.blocks.entities.refinery.RefineryBlock
+import com.example.blocks.custom.SeismicChargeBlockItem
+import com.example.blocks.custom.SeismicChargeWallBlock
+import com.example.blocks.fissure.AsteroidFissureBlock
+import com.example.blocks.refinery.RefineryBlock
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
@@ -21,6 +23,7 @@ object ModBlocks {
     lateinit var fissure: AsteroidFissureBlock
     lateinit var refinery: RefineryBlock
     lateinit var seismicCharge: SeismicChargeBlock
+    lateinit var seismiscChargeWallBlock: SeismicChargeWallBlock
 
     fun register(block: Block, key: RegistryKey<Block>, registerItem: Boolean = true): Block {
         if (registerItem) {
@@ -44,6 +47,7 @@ object ModBlocks {
                 .create()
                 .registryKey(SeismicChargeBlock.key)
         )
+        seismiscChargeWallBlock = SeismicChargeWallBlock(SeismicChargeWallBlock.settings)
 
         val refinerySettings = AbstractBlock.Settings.create()
         val refineryId = Identifier.of("template-mod", "refinery")
@@ -55,7 +59,15 @@ object ModBlocks {
         register(metalChunk.block!!, metalChunk.key, true)
         register(refinery, RegistryKey.of(RegistryKeys.BLOCK, refineryId))
         register(fissure, AsteroidFissureBlock.key)
-        register(seismicCharge, SeismicChargeBlock.key)
+        register(seismicCharge, RegistryKey.of(RegistryKeys.BLOCK, SeismicChargeBlockItem.id), false)
+
+
+        val seismicChargeBlockItem =
+            SeismicChargeBlockItem(seismicCharge, Item.Settings().registryKey(SeismicChargeBlockItem.key))
+
+        Registry.register(Registries.ITEM, SeismicChargeBlockItem.id, seismicChargeBlockItem)
+
+        register(seismiscChargeWallBlock, SeismicChargeWallBlock.key, false)
 
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register { entries ->

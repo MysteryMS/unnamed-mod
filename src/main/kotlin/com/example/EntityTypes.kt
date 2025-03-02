@@ -1,8 +1,7 @@
-package com.example.blocks.entities
+package com.example
 
-import com.example.ModBlocks
-import com.example.blocks.entities.fissure.AsteroidFissureEntity
-import com.example.blocks.entities.refinery.RefineryEntity
+import com.example.blocks.fissure.AsteroidFissureEntity
+import com.example.blocks.refinery.RefineryEntity
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity

@@ -1,4 +1,4 @@
-package com.example.blocks.entities.refinery
+package com.example.blocks.refinery
 
 import net.minecraft.item.Items
 

@@ -1,6 +1,6 @@
-package com.example.blocks.entities.fissure
+package com.example.blocks.fissure
 
-import com.example.blocks.entities.EntityTypes
+import com.example.EntityTypes
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
@@ -33,7 +33,7 @@ class AsteroidFissureBlock(settings: Settings?) : BlockWithEntity(settings) {
         state: BlockState?,
         type: BlockEntityType<T>?
     ): BlockEntityTicker<T>? {
-        return validateTicker(type, EntityTypes.ASTEROID_FISSURE, AsteroidFissureEntity::tick)
+        return validateTicker(type, EntityTypes.ASTEROID_FISSURE, AsteroidFissureEntity.Companion::tick)
     }
 
 }

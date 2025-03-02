@@ -1,7 +1,6 @@
 package com.example
 
-import com.example.blocks.entities.refinery.Outcomes
-import com.example.network.BlockPosPayload
+import com.example.blocks.refinery.Outcomes
 import com.example.network.RefineryOutputChange
 import com.example.screen.RefineryScreenHandler
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
@@ -12,7 +11,6 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
