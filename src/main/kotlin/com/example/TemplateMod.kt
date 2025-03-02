@@ -1,6 +1,5 @@
 package com.example
 
-import com.example.blocks.entities.EntityTypes
 import com.example.network.Networking
 import com.example.recipes.ModRecipeSerializers
 import com.example.recipes.ModRecipeTypes

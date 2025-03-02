@@ -1,6 +1,6 @@
-package com.example.blocks.entities.fissure
+package com.example.blocks.fissure
 
-import com.example.blocks.entities.EntityTypes
+import com.example.EntityTypes
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.util.math.BlockPos

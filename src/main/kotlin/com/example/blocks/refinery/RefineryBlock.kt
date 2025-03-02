@@ -1,6 +1,6 @@
-package com.example.blocks.entities.refinery
+package com.example.blocks.refinery
 
-import com.example.blocks.entities.EntityTypes
+import com.example.EntityTypes
 import com.example.recipes.RefineryRecipe
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.BlockRenderType

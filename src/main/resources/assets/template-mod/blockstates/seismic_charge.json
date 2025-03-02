@@ -1,19 +1,7 @@
 {
   "variants": {
-    "facing=east": {
-      "model": "template-mod:block/seismic_charge",
-      "y": 90
-    },
-    "facing=north": {
+    "": {
       "model": "template-mod:block/seismic_charge"
-    },
-    "facing=south": {
-      "model": "template-mod:block/seismic_charge",
-      "y": 180
-    },
-    "facing=west": {
-      "model": "template-mod:block/seismic_charge",
-      "y": 270
     }
   }
 }

@@ -1,4 +1,4 @@
-package com.example.blocks.entities.refinery
+package com.example.blocks.refinery
 
 import com.example.blocks.entities.EntityTypes
 import com.example.network.RefineryScreenUpdatePayload

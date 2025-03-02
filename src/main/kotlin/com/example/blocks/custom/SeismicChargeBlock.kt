@@ -8,6 +8,7 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.Properties
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.Identifier
@@ -29,13 +30,13 @@ class SeismicChargeBlock(settings: Settings?) : Block(settings) {
         defaultState = stateManager.defaultState.with(FACING, Direction.NORTH)
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext?): BlockState? {
-        //val dir = ctx?.side
-        return defaultState.with(FACING, ctx?.horizontalPlayerFacing?.opposite)
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
+        return super.getPlacementState(ctx)!!.with(Properties.HORIZONTAL_FACING, ctx.horizontalPlayerFacing.opposite)
     }
 
     override fun rotate(state: BlockState?, rotation: BlockRotation?): BlockState {
-        return super.rotate(state, rotation)
+        return state!!.rotate(BlockRotation.COUNTERCLOCKWISE_90)
+
     }
 
     override fun mirror(state: BlockState?, mirror: BlockMirror?): BlockState {
