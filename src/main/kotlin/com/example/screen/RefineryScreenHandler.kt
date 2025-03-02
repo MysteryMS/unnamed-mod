@@ -1,7 +1,8 @@
 package com.example.screen
 
-import com.example.blocks.entities.refinery.RefineryEntity
+import com.example.blocks.refinery.RefineryEntity
 import com.example.network.RefineryScreenUpdatePayload
+import com.example.registries.ModScreenHandlers
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
@@ -16,7 +17,7 @@ class RefineryScreenHandler(
     playerInventory: PlayerInventory?,
     val entity: RefineryEntity,
     private var _payload: RefineryScreenUpdatePayload
-) : ScreenHandler(ScreenHandlerTypes.refineryScreenHandlerType, syncId) {
+) : ScreenHandler(ModScreenHandlers.refineryScreenHandlerType, syncId) {
     var currentRecipeOutputs: List<ItemStack>? = null
 
     var payload: RefineryScreenUpdatePayload

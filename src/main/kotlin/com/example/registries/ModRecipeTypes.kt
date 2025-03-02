@@ -1,8 +1,8 @@
-package com.example.recipes
+package com.example.registries
 
 import com.example.TemplateMod
+import com.example.recipes.RefineryRecipe
 import net.minecraft.recipe.Recipe
-import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.RecipeType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry

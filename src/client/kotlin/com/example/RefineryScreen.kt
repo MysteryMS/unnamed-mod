@@ -1,5 +1,6 @@
 package com.example
 
+import com.example.blocks.refinery.RefineryStatus
 import com.example.network.RefineryOutputChange
 import com.example.recipes.RefineryRecipe
 import com.example.screen.RefineryScreenHandler
@@ -58,7 +59,7 @@ class RefineryScreen(handler: RefineryScreenHandler?, val inventory: PlayerInven
             256, 256
         )
 
-        if (handler.payload.isBlocked) {
+        if (handler.payload.status == RefineryStatus.BLOCKED) {
             context?.drawTexture(
                 RenderLayer::getGuiTextured,
                 texture,
@@ -99,12 +100,9 @@ class RefineryScreen(handler: RefineryScreenHandler?, val inventory: PlayerInven
             val yBase = y + 26 * 1
 
             if (mouseX in xBase..xBase + 18 && mouseY in yBase..yBase + 18) {
-                context?.drawTooltip(
+                context?.drawItemTooltip(
                     this.textRenderer,
-                    listOf(
-                        item.name,
-                        Text.literal(item.count.toString()).withColor(Colors.GRAY)
-                    ),
+                    item,
                     mouseX, mouseY
                 );
             }

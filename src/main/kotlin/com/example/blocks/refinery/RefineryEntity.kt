@@ -1,6 +1,6 @@
 package com.example.blocks.refinery
 
-import com.example.blocks.entities.EntityTypes
+import com.example.registries.ModEntityTypes
 import com.example.network.RefineryScreenUpdatePayload
 import com.example.recipes.RefineryRecipe
 import com.example.screen.RefineryScreenHandler
@@ -19,9 +19,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.recipe.NetworkRecipeId
 import net.minecraft.recipe.RecipeEntry
-import net.minecraft.recipe.input.RecipeInput
 import net.minecraft.recipe.input.SingleStackRecipeInput
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryWrapper
@@ -34,15 +32,18 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
-import kotlin.math.floor
 
-class RefineryEntity(pos: BlockPos?, state: BlockState?) : BlockEntity(EntityTypes.REFINERY, pos, state),
+class RefineryEntity(pos: BlockPos?, state: BlockState?) : BlockEntity(ModEntityTypes.REFINERY, pos, state),
     ExtendedScreenHandlerFactory<RefineryScreenUpdatePayload>
 {
-    val inventory = object : SimpleInventory(2) {}
+    private val TIME_TO_PROCESS_ITEM_TICKS = 20 * 3 // 3s
+
+    val inventory = SimpleInventory(2)
+
+    var status: RefineryStatus = RefineryStatus.IDLE
+        private set
     var output: Item? = null
     var processedTicks = 0
-    var isBlocked = false
 
     val processedItemPercent: Float
         get() = processedTicks / TIME_TO_PROCESS_ITEM_TICKS.toFloat()
@@ -50,8 +51,13 @@ class RefineryEntity(pos: BlockPos?, state: BlockState?) : BlockEntity(EntityTyp
     val inputStack: ItemStack
         get() = inventory.getStack(0)
 
-    val outputStack: ItemStack
+    var outputStack: ItemStack
         get() = inventory.getStack(1)
+        set(value) = inventory.setStack(1, value)
+
+    init {
+        inventory.addListener { updateState() }
+    }
 
     override fun createMenu(syncId: Int, playerInventory: PlayerInventory?, player: PlayerEntity?): ScreenHandler {
         return RefineryScreenHandler(syncId, playerInventory, this, createScreenPayload())
@@ -67,12 +73,15 @@ class RefineryEntity(pos: BlockPos?, state: BlockState?) : BlockEntity(EntityTyp
         selectedRecipeOutputs = Optional.ofNullable(getRecipe()?.let { it.value?.outputs }),
         outputItemSelectedIdentifier = Optional.ofNullable(output?.let { Registries.ITEM.getId(output) }),
         processedItemPercent = processedItemPercent,
-        isBlocked = isBlocked,
+        status = status
     )
 
     override fun getScreenOpeningData(player: ServerPlayerEntity?) = createScreenPayload()
 
     private fun updateScreenData() {
+        if (world?.isClient == true) return
+
+        // TODO: optimize to only send packet if its different from last one
         markDirty()
         val players =
             PlayerLookup.tracking(this) // TODO: may not be the best way to get players. would be better to get players with the screen opened
@@ -84,7 +93,6 @@ class RefineryEntity(pos: BlockPos?, state: BlockState?) : BlockEntity(EntityTyp
 
     override fun writeNbt(nbt: NbtCompound, registries: RegistryWrapper.WrapperLookup) {
         Inventories.writeNbt(nbt, this.inventory.heldStacks, registries);
-        println("wrote nbt")
 
         if (output != null) {
             nbt.putString("outputItemIdentifier", Registries.ITEM.getId(output).toString())
@@ -120,75 +128,80 @@ class RefineryEntity(pos: BlockPos?, state: BlockState?) : BlockEntity(EntityTyp
 
     fun updateOutcomeItem(itemIdentifier: Identifier?) {
         output = itemIdentifier?.let { Registries.ITEM.get(it) }
-        updateScreenData()
+        updateState()
     }
 
-
-    fun tick(world: World, blockPos: BlockPos, blockState: BlockState, entity: RefineryEntity) {
-        // TODO: optimize this function. a lot of checks and network updates are being done every tick
-        // TODO: maybe create a update function whenever the slots are changed or the process is finished
-        if (world.isClient) return
-
-        if (entity.inputStack.isEmpty) {
+    private fun updateState() {
+        if (inputStack.isEmpty) {
             // no item to process
-            entity.isBlocked = false
-            entity.output = null
-            entity.updateScreenData()
+            status = RefineryStatus.IDLE
+            output = null
+            updateScreenData()
             return
         }
 
-        if (entity.output == null) {
+        if (output == null) {
             // no output selected
-            entity.isBlocked = true
-            entity.updateScreenData()
+            status = RefineryStatus.BLOCKED
+            updateScreenData()
             return
         }
 
         val recipe = getRecipe()?.value
         if (recipe == null) {
-            entity.isBlocked = true
+            // no recipe found for input stack
+            status = RefineryStatus.BLOCKED
             updateScreenData()
             return;
         }
-
-
-        val recipeOutputStack = recipe.outputs.find {
+        val recipeOutputStack = getRecipe()?.value?.outputs?.find {
             it.item == output
         } ?: return
 
-        val toAdd = outputStack.count
+        val toAdd = recipeOutputStack.count
 
-        if (entity.outputStack.count + toAdd > 64) {
+        if (outputStack.count + toAdd > 64) {
             // no space to process more
-            entity.isBlocked = true
-            entity.updateScreenData()
+            status = RefineryStatus.BLOCKED
+            updateScreenData()
             return
         }
 
-        if (entity.output != entity.outputStack.item && entity.outputStack.item != Items.AIR) {
+        if (output != outputStack.item && outputStack.item != Items.AIR) {
             // cannot put item to output stack
-            entity.isBlocked = true
-            entity.updateScreenData()
+            status = RefineryStatus.BLOCKED
+            updateScreenData()
             return
         }
-        entity.isBlocked = false
+        status = RefineryStatus.PROCESSING
 
-        if (entity.processedTicks++ >= TIME_TO_PROCESS_ITEM_TICKS) {
-            entity.processedTicks = 0
-
-            entity.inputStack.count--
-
-            if (entity.outputStack.isEmpty) {
-                val newStack = recipeOutputStack.copy()
-                entity.inventory.setStack(1, newStack)
-            } else {
-                entity.outputStack.count += toAdd
-            }
-        }
-        entity.updateScreenData()
+        updateScreenData()
     }
 
-    companion object {
-        private const val TIME_TO_PROCESS_ITEM_TICKS = 20 * 3 // 3s
+    private fun processItem() {
+        val recipeOutputStack = getRecipe()?.value?.outputs?.find {
+            it.item == output
+        } ?: return
+
+        inputStack.count--
+
+        if (outputStack.isEmpty) {
+            outputStack = recipeOutputStack.copy()
+        } else {
+            outputStack.count += recipeOutputStack.count
+        }
+        updateState()
+    }
+
+    fun tick(world: World, blockPos: BlockPos, blockState: BlockState, entity: RefineryEntity) {
+        if (world.isClient) return
+
+        if (status == RefineryStatus.PROCESSING) {
+            if (entity.processedTicks++ >= TIME_TO_PROCESS_ITEM_TICKS) {
+                processItem()
+                entity.processedTicks = 0
+            }
+            updateState()
+        }
     }
 }

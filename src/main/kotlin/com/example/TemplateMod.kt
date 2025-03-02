@@ -1,9 +1,12 @@
 package com.example
 
-import com.example.network.Networking
-import com.example.recipes.ModRecipeSerializers
-import com.example.recipes.ModRecipeTypes
-import com.example.screen.ScreenHandlerTypes
+import com.example.registries.ModNetworking
+import com.example.registries.ModRecipeSerializers
+import com.example.registries.ModRecipeTypes
+import com.example.registries.ModBlocks
+import com.example.registries.ModEntityTypes
+import com.example.registries.ModItems
+import com.example.registries.ModScreenHandlers
 import net.fabricmc.api.ModInitializer
 import net.minecraft.util.Identifier
 import org.slf4j.LoggerFactory
@@ -16,14 +19,14 @@ object TemplateMod : ModInitializer {
         // However, some things (like resources) may still be uninitialized.
         // Proceed with mild caution.
         logger.info("Hello Fabric world!")
-        ModItem.initialize()
+        ModItems.initialize()
         ModBlocks.initialize()
-        EntityTypes.init()
-        ScreenHandlerTypes.init()
+        ModEntityTypes.init()
+        ModScreenHandlers.init()
         ModRecipeTypes.init()
         ModRecipeSerializers.init()
 
-        Networking.register()
+        ModNetworking.register()
 
         //ItemStorage.SIDED.registerForBlockEntity(RefineryEntity::inventoryProvider, ::RefineryEntity)
     }

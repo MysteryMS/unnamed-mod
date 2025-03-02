@@ -1,15 +1,13 @@
 package com.example.recipes
 
 import com.example.TemplateMod
-import net.minecraft.item.Item
-import net.minecraft.item.ItemConvertible
+import com.example.registries.ModRecipeSerializers
+import com.example.registries.ModRecipeTypes
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.recipe.*
-import net.minecraft.recipe.book.RecipeBookCategories
 import net.minecraft.recipe.book.RecipeBookCategory
 import net.minecraft.recipe.input.RecipeInput
-import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.world.World
 

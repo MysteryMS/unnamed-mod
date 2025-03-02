@@ -1,6 +1,6 @@
 package com.example.network
 
-import net.minecraft.item.Item
+import com.example.registries.ModNetworking
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.network.packet.CustomPayload
@@ -21,6 +21,6 @@ data class RefineryOutputChange(
         )
     }
     override fun getId(): Id<out CustomPayload> {
-        return Id(Networking.REFINERY_OUTPUT_CHANGE)
+        return Id(ModNetworking.REFINERY_OUTPUT_CHANGE)
     }
 }

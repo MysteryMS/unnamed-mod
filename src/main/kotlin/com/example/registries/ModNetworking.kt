@@ -1,17 +1,15 @@
-package com.example.network
+package com.example.registries
 
-import com.example.ModBlocks
-import com.example.blocks.refinery.Outcomes
 import com.example.blocks.refinery.RefineryEntity
-import com.example.blocks.entities.refinery.RefineryEntity
+import com.example.network.RefineryOutputChange
+import com.example.network.RefineryScreenUpdatePayload
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
-import net.minecraft.item.BlockItem
 import net.minecraft.network.packet.CustomPayload.Id
 import net.minecraft.util.Identifier
 import kotlin.jvm.optionals.getOrNull
 
-object Networking {
+object ModNetworking {
     val REFINERY_OUTPUT_CHANGE: Identifier = Identifier.of("template-mod", "refinery_output_change")
     val REFINERY_SCREEN_UPDATE_PAYLOAD = Identifier.of("template-mod", "refinery_screen_update_payload")
 

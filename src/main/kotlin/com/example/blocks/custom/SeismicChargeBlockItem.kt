@@ -1,6 +1,6 @@
 package com.example.blocks.custom
 
-import com.example.ModBlocks
+import com.example.registries.ModBlocks
 import net.minecraft.block.Block
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext

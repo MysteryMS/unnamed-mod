@@ -1,7 +1,6 @@
 package com.example.blocks.refinery
 
-import com.example.EntityTypes
-import com.example.recipes.RefineryRecipe
+import com.example.registries.ModEntityTypes
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -10,7 +9,6 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -27,7 +25,7 @@ class RefineryBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun createBlockEntity(pos: BlockPos?, state: BlockState?): BlockEntity? {
-        return EntityTypes.REFINERY.instantiate(pos, state)
+        return ModEntityTypes.REFINERY.instantiate(pos, state)
     }
 
     override fun <T : BlockEntity?> getTicker(
@@ -40,7 +38,7 @@ class RefineryBlock(settings: Settings) : BlockWithEntity(settings) {
 
         return validateTicker(
             type,
-            EntityTypes.REFINERY
+            ModEntityTypes.REFINERY
         ) { w: World, blockPos: BlockPos, blockState: BlockState, refineryEntity: RefineryEntity ->
             refineryEntity.tick(w, blockPos, blockState, refineryEntity)
         }
