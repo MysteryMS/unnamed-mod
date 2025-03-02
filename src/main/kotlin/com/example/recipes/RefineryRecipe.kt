@@ -52,7 +52,7 @@ class RefineryRecipe(
 
     class Type : RecipeType<RefineryRecipe> {
         companion object {
-            val id = TemplateMod.id("forging")
+            val id = TemplateMod.id("refinery_recipe")
             val instance: Type = Type()
         }
     }
