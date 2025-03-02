@@ -1,6 +1,6 @@
 package com.example.screen
 
-import com.example.network.BlockPosPayload
+import com.example.network.RefineryScreenUpdatePayload
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
@@ -24,6 +24,6 @@ object ScreenHandlerTypes {
 
     fun init() {
         refineryScreenHandlerType =
-            register("refinery_scr_handler", ::RefineryScreenHandler, BlockPosPayload.PACKET_CODEC)
+            register("refinery_scr_handler", ::RefineryScreenHandler, RefineryScreenUpdatePayload.CODEC)
     }
 }

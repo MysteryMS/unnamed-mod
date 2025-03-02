@@ -1,27 +1,33 @@
 package com.example.screen
 
 import com.example.blocks.entities.refinery.RefineryEntity
-import com.example.network.BlockPosPayload
+import com.example.network.RefineryScreenUpdatePayload
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.slot.Slot
+import kotlin.jvm.optionals.getOrNull
+
 
 class RefineryScreenHandler(
     syncId: Int,
     playerInventory: PlayerInventory?,
-    val entity: RefineryEntity
-) :
-    ScreenHandler(ScreenHandlerTypes.refineryScreenHandlerType, syncId) {
+    val entity: RefineryEntity,
+    private var _payload: RefineryScreenUpdatePayload
+) : ScreenHandler(ScreenHandlerTypes.refineryScreenHandlerType, syncId) {
+    var currentRecipeOutputs: List<ItemStack>? = null
 
-    constructor(syncId: Int, playerInventory: PlayerInventory, payload: BlockPosPayload) : this(
+    var payload: RefineryScreenUpdatePayload
+        get() = _payload
+        set(value) = updatePayload(value)
+
+    constructor(syncId: Int, playerInventory: PlayerInventory, payload: RefineryScreenUpdatePayload) : this(
         syncId,
         playerInventory,
-        playerInventory.player.world.getBlockEntity(payload.pos) as RefineryEntity
+        playerInventory.player.world.getBlockEntity(payload.blockPos) as RefineryEntity,
+        payload
     )
 
     init {
@@ -34,14 +40,20 @@ class RefineryScreenHandler(
                 return false
             }
         })
-
+        updatePayload(_payload)
     }
 
-    fun hello() {
-        println("hello")
-        println(entity)
-        entity.output = Items.COPPER_INGOT
-        entity.markDirty()
+    fun updatePayload(incomingPayload: RefineryScreenUpdatePayload) {
+        _payload = incomingPayload
+
+        currentRecipeOutputs = incomingPayload.selectedRecipeOutputs.getOrNull()
+        // tried to send the recipe over the network, but this seems a little tricky. Im just sending the outputs
+//        val world = this.entity.world
+//        if (world != null && world is ServerWorld) {
+//            currentRecipe = payload.selectedRecipeId.getOrNull()?.let {
+//                world.recipeManager.get(it)?.parent?.value as RefineryRecipe
+//            }
+//        }
     }
 
     override fun quickMove(player: PlayerEntity, slotIndex: Int): ItemStack {
@@ -68,7 +80,6 @@ class RefineryScreenHandler(
     override fun onContentChanged(inventory: Inventory?) {
         this.syncState()
     }
-
 
     override fun canUse(player: PlayerEntity?): Boolean {
         return true

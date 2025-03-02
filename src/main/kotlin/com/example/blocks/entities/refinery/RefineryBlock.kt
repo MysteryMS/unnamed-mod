@@ -1,6 +1,7 @@
 package com.example.blocks.entities.refinery
 
 import com.example.blocks.entities.EntityTypes
+import com.example.recipes.RefineryRecipe
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -9,6 +10,7 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -36,7 +38,12 @@ class RefineryBlock(settings: Settings) : BlockWithEntity(settings) {
         if (world == null) return null
         if (world.isClient) return null
 
-        return validateTicker(type, EntityTypes.REFINERY, RefineryEntity::tick)
+        return validateTicker(
+            type,
+            EntityTypes.REFINERY
+        ) { w: World, blockPos: BlockPos, blockState: BlockState, refineryEntity: RefineryEntity ->
+            refineryEntity.tick(w, blockPos, blockState, refineryEntity)
+        }
     }
 
     override fun onUse(
@@ -55,8 +62,9 @@ class RefineryBlock(settings: Settings) : BlockWithEntity(settings) {
             }
         }
 
-        println("clicouuuu")
-        return super.onUse(state, world, pos, player, hit)
+        return ActionResult.SUCCESS;
     }
+
+    // TODO: add loot on destroy
 
 }

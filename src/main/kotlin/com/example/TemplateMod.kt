@@ -2,8 +2,11 @@ package com.example
 
 import com.example.blocks.entities.EntityTypes
 import com.example.network.Networking
+import com.example.recipes.ModRecipeSerializers
+import com.example.recipes.ModRecipeTypes
 import com.example.screen.ScreenHandlerTypes
 import net.fabricmc.api.ModInitializer
+import net.minecraft.util.Identifier
 import org.slf4j.LoggerFactory
 
 object TemplateMod : ModInitializer {
@@ -18,9 +21,13 @@ object TemplateMod : ModInitializer {
         ModBlocks.initialize()
         EntityTypes.init()
         ScreenHandlerTypes.init()
+        ModRecipeTypes.init()
+        ModRecipeSerializers.init()
 
         Networking.register()
 
         //ItemStorage.SIDED.registerForBlockEntity(RefineryEntity::inventoryProvider, ::RefineryEntity)
     }
+
+    fun id(path: String): Identifier = Identifier.of("template-mod", path)
 }
