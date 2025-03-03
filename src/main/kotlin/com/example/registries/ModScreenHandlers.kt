@@ -1,6 +1,7 @@
-package com.example.screen
+package com.example.registries
 
-import com.example.network.BlockPosPayload
+import com.example.network.RefineryScreenUpdatePayload
+import com.example.screen.RefineryScreenHandler
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
@@ -8,10 +9,9 @@ import net.minecraft.network.packet.CustomPayload
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.screen.ScreenHandler
-import net.minecraft.screen.ScreenHandlerContext
 import net.minecraft.screen.ScreenHandlerType
 
-object ScreenHandlerTypes {
+object ModScreenHandlers {
     lateinit var refineryScreenHandlerType: ScreenHandlerType<RefineryScreenHandler>
 
     fun <T : ScreenHandler, D : CustomPayload> register(
@@ -24,6 +24,6 @@ object ScreenHandlerTypes {
 
     fun init() {
         refineryScreenHandlerType =
-            register("refinery_scr_handler", ::RefineryScreenHandler, BlockPosPayload.PACKET_CODEC)
+            register("refinery_scr_handler", ::RefineryScreenHandler, RefineryScreenUpdatePayload.CODEC)
     }
 }

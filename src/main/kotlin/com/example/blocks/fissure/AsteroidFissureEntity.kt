@@ -1,7 +1,7 @@
 package com.example.blocks.fissure
 
-import com.example.EntityTypes
-import com.example.ModBlocks
+import com.example.registries.ModBlocks
+import com.example.registries.ModEntityTypes
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 class AsteroidFissureEntity(pos: BlockPos?, state: BlockState?) :
-    BlockEntity(EntityTypes.ASTEROID_FISSURE, pos, state) {
+    BlockEntity(ModEntityTypes.ASTEROID_FISSURE, pos, state) {
 
     var elapsed = 0
     var ticksToDetonate = 100

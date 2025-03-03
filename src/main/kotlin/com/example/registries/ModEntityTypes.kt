@@ -1,4 +1,4 @@
-package com.example
+package com.example.registries
 
 import com.example.blocks.fissure.AsteroidFissureEntity
 import com.example.blocks.refinery.RefineryEntity
@@ -11,7 +11,7 @@ import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
 
 
-object EntityTypes {
+object ModEntityTypes {
     lateinit var REFINERY: BlockEntityType<RefineryEntity>
     lateinit var ASTEROID_FISSURE: BlockEntityType<AsteroidFissureEntity>
 

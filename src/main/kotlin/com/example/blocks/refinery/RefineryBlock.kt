@@ -1,6 +1,6 @@
 package com.example.blocks.refinery
 
-import com.example.EntityTypes
+import com.example.registries.ModEntityTypes
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -25,7 +25,7 @@ class RefineryBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun createBlockEntity(pos: BlockPos?, state: BlockState?): BlockEntity? {
-        return EntityTypes.REFINERY.instantiate(pos, state)
+        return ModEntityTypes.REFINERY.instantiate(pos, state)
     }
 
     override fun <T : BlockEntity?> getTicker(
@@ -36,7 +36,12 @@ class RefineryBlock(settings: Settings) : BlockWithEntity(settings) {
         if (world == null) return null
         if (world.isClient) return null
 
-        return validateTicker(type, EntityTypes.REFINERY, RefineryEntity.Companion::tick)
+        return validateTicker(
+            type,
+            ModEntityTypes.REFINERY
+        ) { w: World, blockPos: BlockPos, blockState: BlockState, refineryEntity: RefineryEntity ->
+            refineryEntity.tick(w, blockPos, blockState, refineryEntity)
+        }
     }
 
     override fun onUse(
@@ -55,8 +60,9 @@ class RefineryBlock(settings: Settings) : BlockWithEntity(settings) {
             }
         }
 
-        println("clicouuuu")
-        return super.onUse(state, world, pos, player, hit)
+        return ActionResult.SUCCESS;
     }
+
+    // TODO: add loot on destroy
 
 }

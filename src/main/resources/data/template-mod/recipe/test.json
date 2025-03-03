@@ -1,0 +1,18 @@
+{
+  "type": "template-mod:refinery_recipe",
+  "ingredient": "template-mod:metal_chunk_block",
+  "outputs": [
+    {
+      "id": "minecraft:raw_iron",
+      "count": 10
+    },
+    {
+      "id": "minecraft:raw_gold",
+      "count": 20
+    },
+    {
+      "id": "minecraft:raw_copper",
+      "count": 5
+    }
+  ]
+}

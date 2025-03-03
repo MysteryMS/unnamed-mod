@@ -1,4 +1,4 @@
-package com.example
+package com.example.registries
 
 import com.example.blocks.MetalChunkBlock
 import com.example.blocks.custom.SeismicChargeBlock

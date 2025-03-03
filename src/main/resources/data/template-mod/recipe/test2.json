@@ -1,0 +1,22 @@
+{
+  "type": "template-mod:refinery_recipe",
+  "ingredient": "minecraft:stone",
+  "outputs": [
+    {
+      "id": "minecraft:emerald",
+      "count": 2
+    },
+    {
+      "id": "minecraft:lapis_lazuli",
+      "count": 16
+    },
+    {
+      "id": "minecraft:amethyst_shard",
+      "count": 10
+    },
+    {
+      "id": "minecraft:coal",
+      "count": 12
+    }
+  ]
+}
