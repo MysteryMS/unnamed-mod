@@ -28,6 +28,7 @@ class AsteroidFissureBlock(settings: Settings?) : BlockWithEntity(settings) {
         return AsteroidFissureEntity(pos, state)
     }
 
+
     override fun <T : BlockEntity?> getTicker(
         world: World?,
         state: BlockState?,
