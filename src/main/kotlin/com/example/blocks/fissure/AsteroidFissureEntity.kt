@@ -1,8 +1,7 @@
 package com.example.blocks.fissure
 
+import com.example.registries.ModBlocks
 import com.example.registries.ModEntityTypes
-import com.example.EntityTypes
-import com.example.ModBlocks
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
